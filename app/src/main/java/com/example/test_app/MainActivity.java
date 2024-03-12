@@ -7,13 +7,17 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 public class MainActivity extends AppCompatActivity {
 
-    String hello = "Hellloooo";
+    String health = "Health";
+    ImageView image;
     int char_count = 0;
     CollapsingToolbarLayout collapsingToolbarLayout;
     @Override
@@ -24,14 +28,16 @@ public class MainActivity extends AppCompatActivity {
         CoordinatorLayout coordinatorLayout = findViewById(R.id.coordinator_layout);
         AppBarLayout appBarLayout = findViewById(R.id.app_bar_layout);
         collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar_layout);
-        causedelay(hello);
+        image  = findViewById(R.id.image);
+
+        causedelay(health);
     }
 
-    private void causedelay(String hello)
+    private void causedelay(String health)
     {
-        if(char_count <= hello.length())
+        if(char_count <= health.length())
         {
-            String fetchedTxt = hello.substring(0,char_count);
+            String fetchedTxt = health.substring(0,char_count);
             collapsingToolbarLayout.setTitle(fetchedTxt);
             new Handler().postDelayed(new Runnable()
             {
@@ -39,9 +45,21 @@ public class MainActivity extends AppCompatActivity {
                 public void run()
                 {
                     char_count++;
-                    causedelay(hello);
+                    causedelay(health);
                 }
-            }, 200);
+            }, 300);
         }
+
+        else
+        {
+            imageAnimation();
+        }
+    }
+
+    private void imageAnimation()
+    {
+        image.setImageDrawable(getDrawable(R.drawable.female_doc_img));
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.move_animation);
+        image.startAnimation(animation);
     }
 }
